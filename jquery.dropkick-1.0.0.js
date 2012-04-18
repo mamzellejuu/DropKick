@@ -38,7 +38,8 @@
     // HTML template for the dropdowns
     dropdownTemplate = [
       '<div class="dk_container" id="dk_container_{{ id }}" tabindex="{{ tabindex }}">',
-        '<a class="dk_toggle">',
+         '<a href="#"  class="dk_toggle">', // Modified mamzellejuu::
+                                            // added href for keyboard navigation (necessary for the focus)
           '<span class="dk_label">{{ label }}</span>',
         '</a>',
         '<div class="dk_options">',
@@ -220,6 +221,7 @@
       options  = $dk.find('.dk_options'),
       open     = $dk.hasClass('dk_open'),
       current  = $dk.find('.dk_option_current'),
+      toggle   = $dk.find('.dk_toggle'), // Added by mamzellejuu
       first    = options.find('li').first(),
       last     = options.find('li').last(),
       next,
@@ -231,10 +233,19 @@
         if (open) {
           _updateFields(current.find('a'), $dk);
           _closeDropdown($dk);
+          e.preventDefault();
         } else {
-          _openDropdown($dk);
+          // Modified by mamzellejuu ::
+          // Modified for keyboard navigation
+          // Open the dropdown only if the user
+          // if focused on the dropdown
+          if($dk.is(":focus")) {
+            _openDropdown($dk);
+            e.preventDefault();
+          }
+          // end modification
         }
-        e.preventDefault();
+       // e.preventDefault();
       break;
 
       case keyMap.up:

@@ -140,7 +140,7 @@
       lists[lists.length] = $select;
 
       // Focus events
-      $dk.bind('focus.dropkick', function (e) {
+      /*$dk.bind('focus.dropkick', function (e) {
         $dk.addClass('dk_focus');
       }).bind('blur.dropkick', function (e) {
         $dk.removeClass('dk_open dk_focus');
@@ -149,7 +149,25 @@
       setTimeout(function () {
         $select.hide();
       }, 0);
+    });*/
+    
+    
+    // Scrolling problem in IE , without this,
+    // it closes when you touch the scroll
+    // workaround from :: http://goo.gl/S0jFo
+    $dk.bind('focus.dropkick', function (e) {
+        $dk.addClass('dk_focus');
+      });
+
+      $(document.body).bind('click.dropkick', function (e) {
+         $dk.removeClass('dk_open dk_focus');
+      });
+
+      setTimeout(function () {
+        $select.hide();
+      }, 0);
     });
+    
   };
 
   // Allows dynamic theme changes
